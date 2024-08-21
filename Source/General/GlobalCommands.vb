@@ -463,6 +463,24 @@ Public Class GlobalCommands
         p.VideoEncoder.ImportCommandLine(commandLine)
     End Sub
 
+    <Command("Changes video encoder settings by importing from a text file.")>
+    Sub ImportVideoEncoderCommandLineFromTextFile(
+        <DispName("File Path")>
+        filePath As String)
+
+        Try
+            Dim commandLine As String = System.IO.File.ReadAllText(filePath)
+
+            If String.IsNullOrWhiteSpace(commandLine) Then
+                Throw New Exception("Command Line Import: The import file was empty, so no commands were imported.")
+            End If
+
+            p.VideoEncoder.ImportCommandLine(commandLine)
+        Catch ex As Exception
+            g.ShowException(ex)
+        End Try
+    End Sub
+
     <Command("Adds a filter at the end of the script.")>
     Sub AddFilter(<DefaultValue(True)> active As Boolean,
                   name As String,
